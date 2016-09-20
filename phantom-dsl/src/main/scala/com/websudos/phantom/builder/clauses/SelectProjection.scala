@@ -27,39 +27,8 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package com.websudos.phantom.builder.query
+package com.websudos.phantom.builder.clauses
 
-import com.datastax.driver.core.{ConsistencyLevel, Session}
-import com.websudos.phantom.CassandraTable
-import com.websudos.phantom.builder.{ConsistencyBound, QueryBuilder, Specified, Unspecified}
-import com.websudos.phantom.connectors.KeySpace
-
-class TruncateQuery[
-  Table <: CassandraTable[Table, _],
-  Record,
-  Status <: ConsistencyBound
-](table: Table, val qb: CQLQuery, override val options: QueryOptions) extends ExecutableStatement {
-
-  def consistencyLevel_=(level: ConsistencyLevel)(implicit session: Session): TruncateQuery[Table, Record, Specified] = {
-    if (session.protocolConsistency) {
-      new TruncateQuery(table, qb, options.consistencyLevel_=(level))
-    } else {
-      new TruncateQuery(table, QueryBuilder.consistencyLevel(qb, level.toString), options)
-    }
-  }
-}
-
-
-object TruncateQuery {
-
-  type Default[T <: CassandraTable[T, _], R] = TruncateQuery[T, R, Unspecified]
-
-  def apply[T <: CassandraTable[T, _], R](table: T)(implicit keySpace: KeySpace): TruncateQuery.Default[T, R] = {
-    new TruncateQuery(
-      table,
-      QueryBuilder.truncate(QueryBuilder.keyspace(keySpace.name, table.tableName).queryString),
-      QueryOptions.empty
-    )
-  }
-
-}
+import com.websudos.phantom.builder.query.CQLQuery
+import shapeless.ops.hlist.Prepend
+import shapeless.{::, Generic, HList, HNil}
