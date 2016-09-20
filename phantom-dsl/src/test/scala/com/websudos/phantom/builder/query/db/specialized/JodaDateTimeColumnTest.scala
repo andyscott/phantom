@@ -34,11 +34,7 @@ import com.websudos.phantom.dsl._
 import com.websudos.phantom.tables._
 import com.outworkers.util.testing._
 
-import scala.concurrent.Future
-
-import scala.concurrent.Future
-
-class JodaDateTimeColumn extends PhantomSuite {
+class JodaDateTimeColumnTest extends PhantomSuite {
 
   override def beforeAll(): Unit = {
     super.beforeAll()

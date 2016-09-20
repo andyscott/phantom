@@ -49,7 +49,7 @@ private[phantom] trait CompressionStrategies {
   private[this] def strategy(strategy: String) = {
     CQLQuery(CQLSyntax.Symbols.`{`).forcePad
       .appendSingleQuote(CQLSyntax.CompressionOptions.sstable_compression)
-      .forcePad.append(CQLSyntax.Symbols.`:`)
+      .forcePad.append(CQLSyntax.Symbols.colon)
       .forcePad.appendSingleQuote(strategy)
   }
 
