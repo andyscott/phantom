@@ -30,8 +30,7 @@
 package com.outworkers.phantom.column
 
 import com.outworkers.phantom.builder.query.CQLQuery
-
-import scala.reflect.runtime.{currentMirror => cm}
+import com.outworkers.phantom.macros.NameHelper
 
 trait AbstractColumn[@specialized(Int, Double, Float, Long, Boolean, Short) T] {
 
@@ -65,11 +64,7 @@ trait AbstractColumn[@specialized(Int, Double, Float, Long, Boolean, Short) T] {
   private[phantom] val isMapKeyIndex = false
   private[phantom] val isMapEntryIndex = false
 
-  private[this] lazy val _name: String = {
-    cm.reflect(this).symbol.name.toTypeName.decodedName.toString
-  }
-
-  def name: String = _name
+  def name: String = macro NameHelper.macroImpl[this.type]
 
   def qb: CQLQuery = CQLQuery(name).forcePad.append(cassandraType)
 

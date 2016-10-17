@@ -258,7 +258,4 @@ package object dsl extends ImplicitMechanism with CreateImplicits
   implicit class UUIDAugmenter(val uid: UUID) extends AnyVal {
     def datetime: DateTime = new DateTime(UUIDs.unixTimestamp(uid), DateTimeZone.UTC)
   }
-
-  def extract[R]: RowParser[R] = new RowParser[R] {}
-
 }

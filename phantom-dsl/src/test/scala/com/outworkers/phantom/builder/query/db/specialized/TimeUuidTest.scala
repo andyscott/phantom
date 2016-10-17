@@ -31,10 +31,10 @@ package com.outworkers.phantom.builder.query.db.specialized
 
 import com.datastax.driver.core.utils.UUIDs
 import com.outworkers.phantom.PhantomSuite
-import com.outworkers.phantom.tables.{TestDatabase, TimeUUIDRecord}
-import org.joda.time.{DateTime, DateTimeZone}
-import com.outworkers.util.testing._
 import com.outworkers.phantom.dsl._
+import com.outworkers.phantom.tables.TimeUUIDRecord
+import com.outworkers.util.testing._
+import org.joda.time.{DateTime, DateTimeZone}
 
 class TimeUuidTest extends PhantomSuite {
 
@@ -76,17 +76,17 @@ class TimeUuidTest extends PhantomSuite {
     )
 
     val chain = for {
-      empty <- TestDatabase.timeuuidTable.truncate().future()
-      store <- TestDatabase.timeuuidTable.store(record).future()
-      store2 <- TestDatabase.timeuuidTable.store(record1).future()
-      store3 <- TestDatabase.timeuuidTable.store(record2).future()
-      get <- TestDatabase.timeuuidTable.select
+      empty <- database.timeuuidTable.truncate().future()
+      store <- database.timeuuidTable.store(record).future()
+      store2 <- database.timeuuidTable.store(record1).future()
+      store3 <- database.timeuuidTable.store(record2).future()
+      get <- database.timeuuidTable.select
         .where(_.user eqs record.user)
         .and(_.id <= maxTimeuuid(end))
         .and(_.id >= minTimeuuid(start))
         .fetch()
 
-      get2 <- TestDatabase.timeuuidTable.select
+      get2 <- database.timeuuidTable.select
         .where(_.user eqs record.user)
         .and(_.id >= minTimeuuid(start.plusMinutes(-2)))
         .and(_.id <= maxTimeuuid(end))
@@ -147,11 +147,11 @@ class TimeUuidTest extends PhantomSuite {
     )
 
     val chain = for {
-      empty <- TestDatabase.timeuuidTable.truncate().future()
-      store <- TestDatabase.timeuuidTable.store(record).future()
-      store2 <- TestDatabase.timeuuidTable.store(record1).future()
-      store3 <- TestDatabase.timeuuidTable.store(record2).future()
-      get <- TestDatabase.timeuuidTable.select
+      empty <- database.timeuuidTable.truncate().future()
+      store <- database.timeuuidTable.store(record).future()
+      store2 <- database.timeuuidTable.store(record1).future()
+      store3 <- database.timeuuidTable.store(record2).future()
+      get <- database.timeuuidTable.select
         .where(_.user eqs record.user)
         .and(_.id >= minTimeuuid(start.plusMinutes(-3)))
         .and(_.id <= maxTimeuuid(end.plusMinutes(-2)))
