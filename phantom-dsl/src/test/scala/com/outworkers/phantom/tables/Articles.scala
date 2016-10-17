@@ -46,7 +46,11 @@ sealed class Articles extends CassandraTable[ConcreteArticles, Article] {
   object name extends StringColumn(this)
   object orderId extends LongColumn(this)
 
-  override def fromRow(row: Row): Article = extract[Article].apply(row)
+  override def fromRow(row: Row): Article = Article(
+    name = name(row),
+    id = id(row),
+    orderId = orderId(row)
+  )
 }
 
 abstract class ConcreteArticles extends Articles with RootConnector {
