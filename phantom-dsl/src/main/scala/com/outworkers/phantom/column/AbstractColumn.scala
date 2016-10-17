@@ -30,10 +30,10 @@
 package com.outworkers.phantom.column
 
 import com.outworkers.phantom.builder.query.CQLQuery
-import com.outworkers.phantom.macros.NameHelper
+
+import scala.reflect.runtime.{currentMirror => cm}
 
 trait AbstractColumn[@specialized(Int, Double, Float, Long, Boolean, Short) T] {
-
   /**
     * Provides the serialisation mechanism of a value to a CQL string.
     * The vast majority of serializers are fed in via the Primitives mechanism.
@@ -64,7 +64,11 @@ trait AbstractColumn[@specialized(Int, Double, Float, Long, Boolean, Short) T] {
   private[phantom] val isMapKeyIndex = false
   private[phantom] val isMapEntryIndex = false
 
-  def name: String = macro NameHelper.macroImpl[this.type]
+  private[this] lazy val _name: String = {
+    cm.reflect(this).symbol.name.toTypeName.decodedName.toString
+  }
+
+  def name: String = _name
 
   def qb: CQLQuery = CQLQuery(name).forcePad.append(cassandraType)
 

@@ -46,7 +46,6 @@ import com.outworkers.phantom.builder.query.{CQLQuery, CreateImplicits, DeleteIm
 import com.outworkers.phantom.builder.serializers.KeySpaceConstruction
 import com.outworkers.phantom.builder.syntax.CQLSyntax
 import com.outworkers.phantom.column.AbstractColumn
-import com.outworkers.phantom.column.extractors.FromRow.RowParser
 import com.outworkers.phantom.connectors.DefaultVersions
 import org.joda.time.DateTimeZone
 import shapeless.{::, HNil}
