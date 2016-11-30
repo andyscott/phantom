@@ -22,12 +22,12 @@ lazy val Versions = new {
   val util = "0.23.1"
   val datastax = "3.1.0"
   val scalatest = "2.2.4"
-  val shapeless = "2.2.5"
+  val shapeless = "2.3.2"
   val thrift = "0.8.0"
   val finagle = "6.37.0"
   val twitterUtil = "6.34.0"
   val scalameter = "0.6"
-  val diesel = "0.4.1"
+  val diesel = "0.5.1"
   val scalacheck = "1.13.0"
   val slf4j = "1.7.21"
   val reactivestreams = "1.0.0"
@@ -95,7 +95,7 @@ lazy val performanceFilter: String => Boolean = _.endsWith("PerformanceTest")
 
 val sharedSettings: Seq[Def.Setting[_]] = Defaults.coreDefaultSettings ++ Seq(
   organization := "com.outworkers",
-  scalaVersion := "2.11.8",
+  scalaVersion := "2.12.0",
   credentials ++= Publishing.defaultCredentials,
   crossScalaVersions := Seq("2.10.6", "2.11.8"),
   resolvers ++= Seq(
@@ -112,7 +112,7 @@ val sharedSettings: Seq[Def.Setting[_]] = Defaults.coreDefaultSettings ++ Seq(
     "-language:reflectiveCalls",
     "-language:higherKinds",
     "-language:existentials",
-    "-Yinline-warnings",
+    //"-Yinline-warnings",
     "-Xlint",
     "-deprecation",
     "-feature",
@@ -197,11 +197,11 @@ lazy val phantomDsl = (project in file("phantom-dsl")).configs(
     "joda-time"                    %  "joda-time"                         % "2.9.4",
     "org.joda"                     %  "joda-convert"                      % "1.8.1",
     "com.datastax.cassandra"       %  "cassandra-driver-core"             % Versions.datastax,
-    "com.datastax.cassandra"       %  "cassandra-driver-extras"           % Versions.datastax,
-    "org.scalacheck"               %% "scalacheck"                        % Versions.scalacheck             % Test,
-    "com.outworkers"               %% "util-lift"                         % Versions.util                   % Test,
-    "com.outworkers"               %% "util-testing"                      % Versions.util                   % Test,
-    "com.storm-enroute"            %% "scalameter"                        % Versions.scalameter             % Test
+    "com.datastax.cassandra"       %  "cassandra-driver-extras"           % Versions.datastax
+    //"org.scalacheck"               %% "scalacheck"                        % Versions.scalacheck             % Test,
+    //"com.outworkers"               %% "util-lift"                         % Versions.util                   % Test,
+    //"com.outworkers"               %% "util-testing"                      % Versions.util                   % Test,
+    //"com.storm-enroute"            %% "scalameter"                        % Versions.scalameter             % Test
   )
 ).dependsOn(
   phantomConnectors
@@ -228,8 +228,8 @@ lazy val phantomConnectors = (project in file("phantom-connectors"))
   ).settings(
     name := "phantom-connectors",
     libraryDependencies ++= Seq(
-      "com.datastax.cassandra"       %  "cassandra-driver-core"             % Versions.datastax,
-      "com.outworkers"               %% "util-testing"                      % Versions.util % Test
+      "com.datastax.cassandra"       %  "cassandra-driver-core"             % Versions.datastax
+      //"com.outworkers"               %% "util-testing"                      % Versions.util % Test
     )
   )
 
